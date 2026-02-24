@@ -1,0 +1,41 @@
+name: gestion_stock_pme
+description: "Application de gestion de stock pour PME – Flutter + Firebase"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Icônes iOS par défaut
+  cupertino_icons: ^1.0.8
+
+  # ----- 🔹 Firebase -----
+  firebase_core: ^3.2.0
+  firebase_auth: ^5.3.0
+  cloud_firestore: ^5.4.0
+
+  # ----- 🔹 Packages utilitaires -----
+  provider: ^6.1.2               # gestion d’état
+  mobile_scanner: ^3.5.0         # scan de code-barres avec caméra
+  http: ^1.2.2                   # requêtes HTTP / API REST
+  intl: ^0.19.0                  # formatage dates et nombres
+  fl_chart: ^0.68.0              # graphiques pour dashboard
+  flutter_local_notifications: ^17.1.2  # notifications locales
+  permission_handler: ^11.3.1    # ✅ gestion des permissions Android/iOS
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Si tu veux inclure des images ou fichiers dans ton app :
+  assets:
+    - assets/

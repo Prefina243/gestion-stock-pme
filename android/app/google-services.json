@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "511845299082",
+    "project_id": "gestion-stock-pme",
+    "storage_bucket": "gestion-stock-pme.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511845299082:android:9f53c8cacb8413d53f8e73",
+        "android_client_info": {
+          "package_name": "com.example.gestion_stock_pme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7QGbVeO87wYECT4okftYCpxkv3JVeeCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
