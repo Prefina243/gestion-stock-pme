@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart'; //  pour le format monétaire
 import '../../models/product_model.dart';
 import '../../services/firestore_service.dart';
 import 'home/product_form_screen.dart';
@@ -18,12 +20,30 @@ class ProductListScreen extends StatelessWidget {
       );
     }
 
+
+    final currencyFormat = NumberFormat.currency(
+      locale: 'fr_CD',
+      symbol: 'FC',
+      decimalDigits: 0,
+    );
+
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text("Liste des produits"),
+        backgroundColor: Colors.white,
+        elevation: 2,
+        centerTitle: true,
+        title: Text(
+          "Liste des produits",
+          style: GoogleFonts.poppins(
+            color: Colors.indigo[800],
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add, color: Colors.indigo),
+            tooltip: "Ajouter un produit",
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const ProductFormScreen()),
@@ -35,55 +55,95 @@ class ProductListScreen extends StatelessWidget {
         stream: service.getProducts(user.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.indigo),
+            );
           }
           if (snapshot.hasError) {
             return Center(
-              child: Text('Erreur de chargement : ${snapshot.error}'),
+              child: Text(
+                'Erreur de chargement : ${snapshot.error}',
+                style: GoogleFonts.poppins(color: Colors.red),
+              ),
             );
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("Aucun produit disponible"));
+            return Center(
+              child: Text(
+                "Aucun produit disponible",
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.grey[700],
+                ),
+              ),
+            );
           }
 
           final products = snapshot.data!;
 
           return ListView.separated(
+            padding: const EdgeInsets.all(12),
             itemCount: products.length,
-            separatorBuilder: (context, index) =>
-            const Divider(height: 1, color: Colors.grey),
+            separatorBuilder: (_, __) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
               final product = products[index];
+              final formattedPrice =
+              currencyFormat.format(product.unitPrice);
 
-              return ListTile(
-                leading: CircleAvatar(
-                  radius: 8,
-                  backgroundColor: product.isLowStock
-                      ? Colors.redAccent
-                      : Colors.greenAccent,
+              return Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                title: Text(product.name),
-                subtitle: Text(
-                    "Prix : ${product.unitPrice.toStringAsFixed(2)} €  |  Qté : ${product.quantity}"),
-                onTap: () {
-                  // Ouvre le formulaire en mode édition
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ProductFormScreen(product: product),
+                child: ListTile(
+                  contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  leading: CircleAvatar(
+                    radius: 10,
+                    backgroundColor: product.isLowStock
+                        ? Colors.redAccent
+                        : Colors.indigoAccent,
+                    child: const Icon(Icons.inventory_2,
+                        size: 18, color: Colors.white),
+                  ),
+                  title: Text(
+                    product.name,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.indigo[900],
                     ),
-                  );
-                },
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () async {
-                    await service.deleteProduct(user.uid, product.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content:
-                          Text('Produit "${product.name}" supprimé.')),
+                  ),
+                  subtitle: Text(
+                    "Prix : $formattedPrice  |  Qté : ${product.quantity}",
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductFormScreen(product: product),
+                      ),
                     );
                   },
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete_outline, color: Colors.red),
+                    tooltip: "Supprimer",
+                    onPressed: () async {
+                      await service.deleteProduct(user.uid, product.id);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.redAccent,
+                            content: Text(
+                                'Produit "${product.name}" supprimé.'),
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ),
               );
             },

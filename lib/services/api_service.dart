@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  // Exemple avec Open Food Facts
+
   static Future<Map<String, dynamic>?> fetchProductData(String barcode) async {
     final Uri url = Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json');
     final response = await http.get(url);

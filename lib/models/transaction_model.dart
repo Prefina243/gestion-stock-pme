@@ -2,7 +2,7 @@ class TransactionModel {
   final String productId;
   final String productName;
   final int quantityChange;
-  final String type; // 'entrée' ou 'sortie'
+  final String type;
   final DateTime date;
 
   TransactionModel({

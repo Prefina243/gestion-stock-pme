@@ -11,22 +11,23 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # Icônes iOS par défaut
+
   cupertino_icons: ^1.0.8
 
-  # ----- 🔹 Firebase -----
+  # -----  Firebase -----
   firebase_core: ^3.2.0
   firebase_auth: ^5.3.0
   cloud_firestore: ^5.4.0
 
-  # ----- 🔹 Packages utilitaires -----
-  provider: ^6.1.2               # gestion d’état
-  mobile_scanner: ^3.5.0         # scan de code-barres avec caméra
-  http: ^1.2.2                   # requêtes HTTP / API REST
-  intl: ^0.19.0                  # formatage dates et nombres
-  fl_chart: ^0.68.0              # graphiques pour dashboard
-  flutter_local_notifications: ^17.1.2  # notifications locales
-  permission_handler: ^11.3.1    # ✅ gestion des permissions Android/iOS
+  # -----  Packages utilitaires -----
+  provider: ^6.1.2
+  mobile_scanner: ^3.5.0
+  http: ^1.2.2
+  intl: ^0.20.2
+  fl_chart: ^1.1.1
+  flutter_local_notifications: ^17.1.2
+  permission_handler: ^11.3.1
+  google_fonts: ^8.0.2
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +37,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Si tu veux inclure des images ou fichiers dans ton app :
   assets:
     - assets/
